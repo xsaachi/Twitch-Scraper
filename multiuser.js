@@ -20,7 +20,6 @@ const connectToChannelDB = async (channelName) => {
   return ChannelChatMessage;
 };
 
-const vtubersData = JSON.parse(fs.readFileSync('plvtubers.json', 'utf8')).vtubers;
 
 // Twitch bot setup
 const client = new tmi.Client({
@@ -28,7 +27,7 @@ const client = new tmi.Client({
     username: process.env.TWITCH_USERNAME,
     password: process.env.TWITCH_PASSWORD,
   },
-  channels: vtubersData, // Initialize an empty array for storing channels
+  channels: [process.env.TWITCH_CHANNEL1, process.env.TWITCH_CHANNEL2],
 });
 
 client.connect();
