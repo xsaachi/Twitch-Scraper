@@ -2,7 +2,7 @@
 
 Script to pull messages from defined twitch channels and save them in the mongodb database
 
-**How to use?**
+## How to use?
 
  1. Download and install nodejs
  2. Run npm install
