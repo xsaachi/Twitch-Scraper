@@ -21,13 +21,16 @@ const connectToChannelDB = async (channelName) => {
 };
 
 
+const vtubersData = JSON.parse(fs.readFileSync('plvtubers.json', 'utf8')).vtubers;
+
+
 // Twitch bot setup
 const client = new tmi.Client({
   identity: {
     username: process.env.TWITCH_USERNAME,
     password: process.env.TWITCH_PASSWORD,
   },
-  channels: [process.env.TWITCH_CHANNEL1, process.env.TWITCH_CHANNEL2],
+  channels: vtubersData,
 });
 
 client.connect();
@@ -35,10 +38,13 @@ client.connect();
 // Map to store ChannelChatMessage models for each channel
 const channelModels = new Map();
 
+const ignoredUsers = JSON.parse(fs.readFileSync('ignored_users.json', 'utf-8'));
+
 client.on('message', async (channel, userstate, message, self) => {
   if (self) return; // Ignore messages from the bot itself
   if (userstate['message-type'] === 'whisper') return; // Ignore whispers
-
+  if (ignoredUsers.includes(userstate.username)) return; // Skip saving messages from ignored users
+  
   let channelModel = channelModels.get(channel);
 
   // If model for the channel doesn't exist, create it and store it in the map
