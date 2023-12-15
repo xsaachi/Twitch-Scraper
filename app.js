@@ -41,6 +41,7 @@ client.on('message', async (channel, userstate, message, self) => {
   if (self) return; // Ignore messages from the bot itself
   if (userstate['message-type'] === 'whisper') return; // Ignore whispers
   if (ignoredUsers.includes(userstate.username)) return; // Skip saving messages from ignored users
+  if (message.startsWith('!')) return; // Skip messages starting with '!'
 
   let channelModel = channelModels.get(channel);
 
