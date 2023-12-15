@@ -6,8 +6,7 @@ const fs = require('fs');
 // Function to create a connection and model for a channel
 const connectToChannelDB = async (channelName) => {
   // Create a unique connection URI for each channel
-  const channelMongoURI = `${process.env.MONGO_URI}`;
-  const channelDBConnection = mongoose.createConnection(channelMongoURI);
+  const channelDBConnection = mongoose.createConnection(`${process.env.MONGO_URI}`);
 
   // Define model for the channel's chat messages
   const ChannelChatMessage = channelDBConnection.model(`${channelName}`, {
